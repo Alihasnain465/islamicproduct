@@ -4,12 +4,12 @@ import Image from "next/image";
 import { useCart } from "../../context/cartcontext";
 
 const products = [
-  { name: "Janamaz", price: 2500, image: "/janmaz.jfif" },
-  { name: "Islamic Cap", price: 800, image: "/cap.jfif" },
-  { name: "Tasbeeh", price: 600, image: "/tasbeeh.jfif" },
+  { name: "Janamaz", price: 2500, image: "/janmaz.jpg" },
+  { name: "Islamic Cap", price: 800, image: "/cap.jpg" },
+  { name: "Tasbeeh", price: 600, image: "/tasbeeh.jpg" },
   { name: "Quran Pak", price: 3000, image: "/quran.jpg" },
   { name: "Prayer Rug", price: 4500, image: "/rug prayer.jpg" },
-  { name: "Islamic Book", price: 1200, image: "/islamic book.jfif" },
+  { name: "Islamic Book", price: 1200, image: "/islamic book.jpg" },
 ];
 
 export default function ProductsPage() {
