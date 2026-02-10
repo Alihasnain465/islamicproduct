@@ -1,88 +1,79 @@
 "use client";
-
+import Image from "next/image";
 import { useCart } from "../../context/cartcontext";
+import Link from "next/link";
 
 export default function CartPage() {
   const { cart, removeFromCart, clearCart } = useCart();
-
-  const total = cart.reduce(
-    (sum, item) => sum + item.price * item.quantity,
-    0
-  );
-
-  // EMPTY CART
-  if (cart.length === 0) {
-    return (
-      <section className="min-h-screen flex flex-col justify-center items-center bg-gradient-to-br from-slate-50 via-green-50 to-emerald-100 px-4">
-        <h1 className="text-3xl font-bold text-emerald-800">
-          Cart is Empty
-        </h1>
-        <p className="text-gray-600 mt-2">
-          Add some products to your cart.
-        </p>
-      </section>
-    );
-  }
+  const total = cart.reduce((sum, item) => sum + item.price, 0);
 
   return (
-    <section className="min-h-screen flex flex-col bg-gradient-to-br from-slate-50 via-green-50 to-emerald-100 px-4">
-      
-      {/* CONTENT */}
-      <div className="max-w-4xl mx-auto py-16 flex-grow">
-        <h1 className="text-4xl font-bold mb-10 text-center text-emerald-800">
+    <div className="flex flex-col min-h-screen bg-gradient-to-b from-green-50 via-white to-green-100">
+      {/* Page Content */}
+      <main className="flex-grow max-w-7xl mx-auto p-6 w-full">
+        <h1 className="text-4xl md:text-5xl font-extrabold mb-6 text-center text-green-900">
           Your Cart
         </h1>
 
-        <div className="space-y-6">
-          {cart.map((item, i) => (
-            <div
-              key={i}
-              className="flex justify-between items-center bg-white rounded-2xl shadow-md p-5"
-            >
-              <div className="flex items-center gap-4">
-                <img
+        {cart.length === 0 ? (
+          <p className="text-center text-gray-600 text-lg">
+            Cart is empty.{" "}
+            <Link href="/" className="text-green-700 underline font-semibold">
+              Go shopping
+            </Link>
+          </p>
+        ) : (
+          <div className="space-y-4">
+            {cart.map((item, idx) => (
+              <div
+                key={idx}
+                className="flex items-center border p-4 rounded-2xl bg-white shadow-lg hover:scale-105 transform transition duration-300"
+              >
+                <Image
                   src={item.image}
                   alt={item.name}
-                  className="h-20 w-20 object-cover rounded-xl"
+                  width={100}
+                  height={100}
+                  className="object-cover rounded-xl"
                 />
-                <div>
-                  <h2 className="font-semibold text-lg">
+                <div className="ml-6 flex-1">
+                  <h2 className="font-semibold text-gray-800 text-lg md:text-xl">
                     {item.name}
                   </h2>
-                  <p className="text-gray-500">
-                    Qty: {item.quantity}
+                  <p className="text-green-700 font-bold text-md md:text-lg">
+                    Rs {item.price}
                   </p>
                 </div>
-              </div>
-
-              <div className="text-right">
-                <p className="font-bold text-emerald-700">
-                  Rs {item.price * item.quantity}
-                </p>
                 <button
-                  className="text-red-500 text-sm mt-2 hover:underline"
-                  onClick={() => removeFromCart(item.name)}
+                  className="bg-red-600 text-white px-3 py-2 rounded-full hover:bg-red-700 transition-all duration-300"
+                  onClick={() => removeFromCart(idx)}
                 >
                   Remove
                 </button>
               </div>
-            </div>
-          ))}
-        </div>
+            ))}
 
-        {/* TOTAL */}
-        <div className="text-right mt-10 bg-white rounded-2xl shadow-md p-6">
-          <h2 className="text-2xl font-bold text-gray-800">
-            Total: Rs {total}
-          </h2>
-          <button
-            className="mt-4 bg-emerald-600 text-white px-8 py-2 rounded-full hover:bg-emerald-700 transition"
-            onClick={() => clearCart()}
-          >
-            Clear Cart
-          </button>
-        </div>
-      </div>
-    </section>
+            <div className="mt-6 text-right font-bold text-xl text-gray-900">
+              Total: Rs {total}
+            </div>
+
+            <div className="mt-4 flex flex-col md:flex-row justify-between gap-3 md:gap-0">
+              <button
+                className="bg-red-600 text-white px-6 py-3 rounded-full hover:bg-red-700 transition-all duration-300"
+                onClick={clearCart}
+              >
+                Clear Cart
+              </button>
+              <button className="bg-green-600 text-white px-6 py-3 rounded-full hover:bg-green-700 transition-all duration-300">
+                Checkout
+              </button>
+            </div>
+          </div>
+        )}
+      </main>
+
+      {/* Footer */}
+      
+    </div>
   );
 }
